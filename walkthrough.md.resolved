@@ -1,0 +1,33 @@
+# 像素風闖關問答遊戲 - 成果驗證
+
+我已經完成了「像素風闖關問答遊戲」的所有開發工作。
+
+## 實作功能回顧
+
+- **視覺風格**: 採用 2000 年代街機像素風 (Pixel Art)，使用 'Press Start 2P' 字體、霓虹配色與像素邊框。
+- **動態頭像**: 每一關會從 DiceBear API 預載的 100 張素材中隨機取出像素風格關主。
+- **後端整合**: 
+    - 實作了專屬的 [Google Apps Script 腳本](file:///C:/Users/hftz/.gemini/antigravity/brain/7248cf96-37b3-4e9b-9b93-8f74ea93f2b9/gas_code.gs.md)。
+    - 前端透過 [fetch](file:///c:/workspace/0New/AI/Antigravity/pixel-game/src/api.js#4-15) 與 GAS 進行通訊，支援題目獲取與成績上傳。
+- **操作流程**:
+    - **首頁**: 使用者輸入 ID 並點擊 START。
+    - **闖關**: 顯示題目、四個選項與關主頭像。
+    - **結算**: 顯示得分與 ID，並提供重新開始按鈕。
+
+## 檔案結構
+
+- [src/App.jsx](file:///c:/workspace/0New/AI/Antigravity/pixel-game/src/App.jsx): 核心遊戲邏輯與狀態機。
+- [src/api.js](file:///c:/workspace/0New/AI/Antigravity/pixel-game/src/api.js): GAS API 調用模組。
+- [src/index.css](file:///c:/workspace/0New/AI/Antigravity/pixel-game/src/index.css): 定義全域像素風 UI 系統。
+- [.env](file:///c:/workspace/0New/AI/Antigravity/pixel-game/.env): 環境變數配置（PASS_THRESHOLD, QUESTION_COUNT 等）。
+
+## 驗證結果
+
+- **編譯測試**: 執行 `npm run build` 成功完成生產環境打包。
+- **UI 響應**: 容器採用 Flexbox 佈局，在不同螢幕尺寸下皆能保持置中。
+
+## 下一步建議
+
+1. **部署 GAS**: 請參考 [GAS 腳本檔案](file:///C:/Users/hftz/.gemini/antigravity/brain/7248cf96-37b3-4e9b-9b93-8f74ea93f2b9/gas_code.gs.md) 中的部署說明，將其部署為 Web App。
+2. **更新環境變數**: 將部署後的 URL 填入專案根目錄的 [.env](file:///c:/workspace/0New/AI/Antigravity/pixel-game/.env) 檔案中。
+3. **Google Sheets 配置**: 確保您的 Google Sheets 中有「題目」與「回答」工作表，且欄位符合需求。

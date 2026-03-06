@@ -1,0 +1,40 @@
+# 像素風闖關問答遊戲 - 實作計畫
+
+這個專案將建立一個基於 React 的像素風問答遊戲，使用 Google Sheets 作為後端資料庫。
+
+## 系統架構
+
+- **前端**: React (Vite) + CSS Modules / Vanilla CSS
+- **後端**: Google Apps Script (GAS)
+- **資料庫**: Google Sheets (題目表、回答表)
+- **素材**: DiceBear API (Pixel Art Avatars)
+
+## 待商議事項
+- Google Sheets 的 URL 與 GAS 部署：需要使用者部署 GAS 並提供 URL。
+- 通關門檻與題數：預設為環境變數設定。
+
+## 擬議變更
+
+### Google Apps Script
+- 實作 `doGet`：根據 `QUESTION_COUNT` 隨機回傳題目（不含解答）。
+- 實作 `doPost`：接收作答結果，計算分數，更新「回答」工作表。
+
+### 前端開發
+- **`App.jsx`**: 管理遊戲狀態機 (START -> PLAYING -> FINISHED)。
+- **`api.js`**: 處理與 GAS 的通訊。
+- **`components/`**:
+    - `PixelAvatar`: 封裝 DiceBear API。
+    - `QuestionCard`: 顯示題目與選項。
+    - `ResultScreen`: 顯示最終得分與通關狀態。
+- **`styles/`**:
+    - `pixel.css`: 定義像素風格的邊框、按鈕、字體（引入 Google Fonts）。
+
+## 驗證計畫
+
+### 自動化測試
+- 使用 `npm run dev` 啟動本地開發環境進行功能驗證。
+
+### 手動驗證
+- 驗證 ID 輸入是否正確傳遞。
+- 驗證題目隨機抓取功能。
+- 驗證分數計算與 Google Sheets 寫入邏輯。
