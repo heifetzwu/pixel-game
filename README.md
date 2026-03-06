@@ -1,16 +1,42 @@
-# React + Vite
+# 像素風闖關問答遊戲 (Pixel Quest)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+一個使用 React + Vite 開發的像素風格問答遊戲，後端整合 Google Sheets。
 
-Currently, two official plugins are available:
+## 功能特點
+- **像素藝術風格**: 2000 年代街機視覺效果。
+- **動態頭像**: 使用 DiceBear API 生成隨機關主。
+- **Google Sheets 整合**: 自動讀取題目並紀錄玩家成績。
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 環境變數設定
 
-## React Compiler
+請在專案根目錄建立 `.env` 檔案，或在 GitHub Repository Secrets 中設定以下變數：
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- `VITE_GOOGLE_APP_SCRIPT_URL`: Google Apps Script 的 Web App 網址。
+- `VITE_PASS_THRESHOLD`: 通關門檻（答對幾題算通過）。
+- `VITE_QUESTION_COUNT`: 每次遊戲的題目數量。
 
-## Expanding the ESLint configuration
+## 本地開發
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. 安裝套件：
+   ```bash
+   npm install
+   ```
+2. 啟動開發伺服器：
+   ```bash
+   npm run dev
+   ```
+
+## 自動化部署 (GitHub Pages)
+
+本專案已設定 GitHub Actions 自動部署。
+
+1. **設定 Secrets**:
+   在 GitHub Repo 的 `Settings > Secrets and variables > Actions` 中新增上述環境變數。
+2. **啟動部署**:
+   每次 Push 到 `main` 分支都會觸發自動部署。
+3. **GitHub Pages 設定**:
+   前往 `Settings > Pages`，將 `Build and deployment > Source` 設定為 `GitHub Actions`。
+
+## Google Apps Script 部署
+
+請參考 [gas_code.gs.md](https://github.com/heifetzwu/pixel-game/blob/main/gas_code.gs.md) 中的說明進行部署。
