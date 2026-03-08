@@ -13,7 +13,7 @@ export const fetchQuestions = async () => {
     }
 };
 
-export const submitResult = async (userId, score, total) => {
+export const submitResult = async (userId, answers) => {
     try {
         // Use text/plain to avoid CORS preflight (OPTIONS request)
         // Google Apps Script cannot handle preflight requests.
@@ -23,7 +23,7 @@ export const submitResult = async (userId, score, total) => {
             headers: {
                 'Content-Type': 'text/plain',
             },
-            body: JSON.stringify({ userId, score, total }),
+            body: JSON.stringify({ userId, answers }),
         });
         return { status: 'success' };
     } catch (error) {

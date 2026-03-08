@@ -14,6 +14,7 @@ function App() {
   const [userId, setUserId] = useState('');
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [userAnswers, setUserAnswers] = useState([]); // Track user choices
   const [score, setScore] = useState(0);
   const [avatars, setAvatars] = useState([]);
 
@@ -29,38 +30,30 @@ function App() {
     setGameState(GAME_STATES.PLAYING);
     const data = await fetchQuestions();
     setQuestions(data);
+    setUserAnswers([]);
   };
 
-  const handleAnswer = (option) => {
-    // Note: In a real app, validation should be backend-side
-    // For this demo, let's assume we have a simple logic or 
-    // the backend will handle the true score on POST.
-    // However, the user wants score calculation sent to GAS.
-    // Since doGet doesn't return answers, we might need a two-step or 
-    // simply mock the score calculation if the backend doPost does the real work.
-    // Looking at GAS code, it expects score from frontend.
-    // We'll need the answers in doGet or handle it here if we had them.
-    // For now, let's assume the question object HAS a hidden Correct key (not sent via API)
-    // OR we just record what they picked and send it. 
-    // USER REQ: "將作答結果傳送到 GAS 計算成績"
-    // I will adjust api.js and App.js to send the selected answers array.
+  const handleAnswer = (choice) => {
+    const currentQuestion = questions[currentIndex];
+    const newUserAnswers = [...userAnswers, { id: currentQuestion.id, choice }];
+    setUserAnswers(newUserAnswers);
 
-    // Updated logic: Store answers
     const nextIndex = currentIndex + 1;
     if (nextIndex < questions.length) {
       setCurrentIndex(nextIndex);
     } else {
-      finishGame();
+      finishGame(newUserAnswers);
     }
   };
 
-  const finishGame = async () => {
+  const finishGame = async (finalAnswers) => {
     setGameState(GAME_STATES.SUBMITTING);
-    // Mock score calculation for demonstration since doGet doesn't send answers
-    const finalScore = Math.floor(Math.random() * questions.length);
-    await submitResult(userId, finalScore, questions.length);
+    // Send answers to GAS for scoring and recording
+    await submitResult(userId, finalAnswers);
     setGameState(GAME_STATES.FINISHED);
-    setScore(finalScore);
+    // Note: Since we use no-cors, we can't get the score back easily.
+    // The score in the sheet will be correct. 
+    // For UI, we show a completion message.
   };
 
   return (
@@ -105,9 +98,10 @@ function App() {
 
       {gameState === GAME_STATES.FINISHED && (
         <div className="pixel-border result-screen">
-          <h2>GAME OVER</h2>
+          <h2>MISSION COMPLETE</h2>
           <p>ID: {userId}</p>
-          <p>SCORE: {score} / {questions.length}</p>
+          <p>您的作答已傳送至伺服器進行計分。</p>
+          <p>請檢查 Google Sheets 確認您的成績！</p>
           <button onClick={() => window.location.reload()} className="pixel-button">PLAY AGAIN</button>
         </div>
       )}
